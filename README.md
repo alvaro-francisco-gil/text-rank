@@ -37,6 +37,7 @@ for word, score in keywords:
 - Configurable parts of speech (POS) tags for keyword extraction
 - Export co-occurrence graphs to Pajek format for visualization
 - Built-in stopword removal and text preprocessing
+- Utility functions for file handling and batch processing
 
 ## Usage
 
@@ -68,23 +69,23 @@ keywords = extractor.extract_keywords(text, top_n=15)  # Get top 15 keywords
 
 ### Working with Text Files
 
+The library provides utility functions for working with text files:
+
 ```python
-def analyze_text_file(file_path, top_n=10):
-    """Analyze a text file and extract keywords."""
-    with open(file_path, 'r', encoding='utf-8') as f:
-        text = f.read()
-    
-    extractor = TextRankKeywordExtractor()
-    keywords = extractor.extract_keywords(text, top_n=top_n)
-    
-    print(f"Top keywords and their scores:")
+from text_rank.utils import analyze_text_file, analyze_multiple_files
+
+# Analyze a single file
+keywords = analyze_text_file('your_text_file.txt', top_n=10)
+
+# Analyze multiple files
+file_paths = ['file1.txt', 'file2.txt', 'file3.txt']
+results = analyze_multiple_files(file_paths, top_n=10)
+
+# Print results for each file
+for file_path, keywords in results.items():
+    print(f"\nKeywords for {file_path}:")
     for word, score in keywords:
         print(f"{word}: {score:.4f}")
-    
-    return keywords
-
-# Use the function
-keywords = analyze_text_file('your_text_file.txt')
 ```
 
 ### Exporting the Co-occurrence Graph
@@ -111,6 +112,20 @@ extractor.export_pajek(graph, 'output_graph.net')
 
 - `text` (str): The input text to analyze
 - `top_n` (int, default=10): Number of top keywords to return
+
+### Utility Functions
+
+#### analyze_text_file
+- `file_path` (str): Path to the text file
+- `top_n` (int, default=10): Number of top keywords to return
+- `window_size` (int, default=5): Size of the sliding window
+- `encoding` (str, default='utf-8'): File encoding
+
+#### analyze_multiple_files
+- `file_paths` (List[str]): List of paths to text files
+- `top_n` (int, default=10): Number of top keywords per file
+- `window_size` (int, default=5): Size of the sliding window
+- `encoding` (str, default='utf-8'): File encoding
 
 ## Dependencies
 
