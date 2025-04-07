@@ -10,8 +10,9 @@ class TextRankApp:
         self.root.geometry("800x600")
         self.root.minsize(600, 400)
         
-        # Initialize the TextRank extractor
-        self.extractor = TextRankKeywordExtractor(window_size=5)
+        # Initialize the TextRank extractor with default parameters
+        self.window_size = 5
+        self.extractor = TextRankKeywordExtractor(window_size=self.window_size)
         
         # Create the main frame
         self.main_frame = ttk.Frame(self.root, padding="10")
@@ -53,18 +54,41 @@ class TextRankApp:
         control_frame = ttk.Frame(self.main_frame)
         control_frame.pack(fill=tk.X, pady=5)
         
+        # Parameters frame
+        params_frame = ttk.LabelFrame(control_frame, text="Parameters", padding="5")
+        params_frame.pack(fill=tk.X, pady=5)
+        
+        # Window size control
+        window_frame = ttk.Frame(params_frame)
+        window_frame.pack(fill=tk.X, pady=2)
+        ttk.Label(window_frame, text="Window Size:").pack(side=tk.LEFT, padx=5)
+        self.window_size_var = tk.StringVar(value=str(self.window_size))
+        self.window_size_entry = ttk.Entry(window_frame, textvariable=self.window_size_var, width=5)
+        self.window_size_entry.pack(side=tk.LEFT, padx=5)
+        ttk.Label(window_frame, text="(Size of the sliding window for co-occurrence)").pack(side=tk.LEFT, padx=5)
+        
         # Number of keywords to extract
-        ttk.Label(control_frame, text="Number of keywords:").pack(side=tk.LEFT, padx=5)
+        keywords_frame = ttk.Frame(params_frame)
+        keywords_frame.pack(fill=tk.X, pady=2)
+        ttk.Label(keywords_frame, text="Number of keywords:").pack(side=tk.LEFT, padx=5)
         self.top_n_var = tk.StringVar(value="10")
-        self.top_n_entry = ttk.Entry(control_frame, textvariable=self.top_n_var, width=5)
+        self.top_n_entry = ttk.Entry(keywords_frame, textvariable=self.top_n_var, width=5)
         self.top_n_entry.pack(side=tk.LEFT, padx=5)
         
+        # Buttons frame
+        buttons_frame = ttk.Frame(control_frame)
+        buttons_frame.pack(fill=tk.X, pady=5)
+        
+        # Export button
+        self.export_btn = ttk.Button(buttons_frame, text="Export Graph", command=self.export_graph)
+        self.export_btn.pack(side=tk.RIGHT, padx=5)
+        
         # Extract button
-        self.extract_btn = ttk.Button(control_frame, text="Extract Keywords", command=self.extract_keywords)
+        self.extract_btn = ttk.Button(buttons_frame, text="Extract Keywords", command=self.extract_keywords)
         self.extract_btn.pack(side=tk.RIGHT, padx=5)
         
         # Clear button
-        self.clear_btn = ttk.Button(control_frame, text="Clear", command=self.clear_all)
+        self.clear_btn = ttk.Button(buttons_frame, text="Clear", command=self.clear_all)
         self.clear_btn.pack(side=tk.RIGHT, padx=5)
         
     def upload_file(self):
@@ -91,8 +115,12 @@ class TextRankApp:
             return
         
         try:
-            # Get the number of keywords to extract
+            # Get the parameters
             top_n = int(self.top_n_var.get())
+            window_size = int(self.window_size_var.get())
+            
+            # Update the extractor with the new window size
+            self.extractor = TextRankKeywordExtractor(window_size=window_size)
             
             # Extract keywords
             keywords = self.extractor.extract_keywords(text, top_n=top_n)
@@ -103,16 +131,51 @@ class TextRankApp:
                 self.keywords_output.insert(tk.END, f"{word}: {score:.4f}\n")
                 
         except ValueError:
-            self.show_error("Please enter a valid number for the number of keywords.")
+            self.show_error("Please enter valid numbers for the parameters.")
         except Exception as e:
             self.show_error(f"Error extracting keywords: {str(e)}")
+    
+    def export_graph(self):
+        # Get the text from the input area
+        text = self.text_input.get(1.0, tk.END).strip()
+        
+        if not text:
+            self.show_error("Please enter some text or upload a file first.")
+            return
+        
+        try:
+            # Get the window size parameter
+            window_size = int(self.window_size_var.get())
+            
+            # Update the extractor with the new window size
+            self.extractor = TextRankKeywordExtractor(window_size=window_size)
+            
+            # Build the co-occurrence graph
+            graph = self.extractor.build_cooccurrence_graph(text)
+            
+            # Ask for the save location
+            file_path = filedialog.asksaveasfilename(
+                title="Save Pajek Graph",
+                defaultextension=".net",
+                filetypes=[("Pajek Network Files", "*.net"), ("All Files", "*.*")]
+            )
+            
+            if file_path:
+                # Export the graph
+                self.extractor.export_pajek(graph, file_path)
+                messagebox.showinfo("Success", f"Graph exported successfully to {file_path}")
+                
+        except ValueError:
+            self.show_error("Please enter a valid number for the window size parameter.")
+        except Exception as e:
+            self.show_error(f"Error exporting graph: {str(e)}")
     
     def clear_all(self):
         self.text_input.delete(1.0, tk.END)
         self.keywords_output.delete(1.0, tk.END)
     
     def show_error(self, message):
-        tk.messagebox.showerror("Error", message)
+        messagebox.showerror("Error", message)
 
 def main():
     root = tk.Tk()
