@@ -45,6 +45,23 @@ python run_text_rank_app.py
 python text_rank_app.py
 ```
 
+## Building the Executable
+
+You can build a standalone executable (.exe) file that can be run without requiring Python to be installed:
+
+1. Make sure you have the text_rank library installed
+2. Run the build script:
+   ```
+   python build_exe.py
+   ```
+3. The executable will be created in the `dist` directory
+4. You can distribute the `TextRank_App.exe` file to users who don't have Python installed
+
+### Requirements for Building
+
+- PyInstaller (will be installed automatically if not present)
+- All dependencies of the text_rank library
+
 ## Usage
 
 1. **Input Text**: 

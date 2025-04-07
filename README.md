@@ -10,10 +10,6 @@ pip install git+https://github.com/alvaro-francisco-gil/text-rank.git
 
 ## Quick Start
 
-Check out our interactive Jupyter notebook example to learn how to use the library:
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/alvaro-francisco-gil/text-rank/blob/main/examples/using_text_rank.ipynb)
-
 ```python
 from text_rank import TextRankKeywordExtractor
 
@@ -51,6 +47,9 @@ processing: 0.0434
 data: 0.0430
 form: 0.0374
 ```
+Check out our interactive Jupyter notebook example to learn how to use the library:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/alvaro-francisco-gil/text-rank/blob/main/examples/using_text_rank.ipynb)
 
 ## Features
 
