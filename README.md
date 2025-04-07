@@ -30,6 +30,20 @@ for word, score in keywords:
     print(f"{word}: {score:.4f}")
 ```
 
+Example output:
+```
+language: 0.1190
+computers: 0.0784
+natural: 0.0774
+science: 0.0560
+computer: 0.0558
+artificial: 0.0557
+linguistics: 0.0555
+intelligence: 0.0555
+interactions: 0.0551
+rules: 0.0548
+```
+
 ## Features
 
 - Extract keywords from text using the TextRank algorithm
@@ -40,19 +54,6 @@ for word, score in keywords:
 - Utility functions for file handling and batch processing
 
 ## Usage
-
-### Basic Usage
-
-```python
-from text_rank import TextRankKeywordExtractor
-
-# Initialize the extractor
-extractor = TextRankKeywordExtractor()
-
-# Extract keywords from text
-text = "Your text here..."
-keywords = extractor.extract_keywords(text, top_n=10)
-```
 
 ### Customizing Parameters
 
@@ -127,26 +128,10 @@ extractor.export_pajek(graph, 'output_graph.net')
 - `window_size` (int, default=5): Size of the sliding window
 - `encoding` (str, default='utf-8'): File encoding
 
-## Dependencies
-
-- nltk
-- networkx
-
-## Requirements
-
-Before using the library, make sure to download the required NLTK data:
-
-```python
-import nltk
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('stopwords')
-```
 
 ## Examples
 
 Check out the `examples` directory for more detailed examples:
-- `text_rank_examples.ipynb`: Comprehensive examples of using the library
 - `using_text_rank.ipynb`: Basic usage examples
 
 ## Contributing
