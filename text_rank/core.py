@@ -1,21 +1,22 @@
 import nltk
 import networkx as nx
-from nltk import pos_tag, word_tokenize
+from nltk.tokenize import TreebankWordTokenizer
+from nltk.tag import pos_tag
 from nltk.corpus import stopwords
 from collections import defaultdict
-
-nltk.download(['punkt', 'stopwords', 'averaged_perceptron_tagger'])
 
 class TextRankKeywordExtractor:
     def __init__(self, window_size=5, pos_tags=('NN', 'NNS', 'JJ', 'JJR', 'JJS')):
         self.window_size = window_size
         self.pos_tags = pos_tags
         self.stop_words = set(stopwords.words('english'))
+        self.tokenizer = TreebankWordTokenizer()
         
     def _filter_words(self, text):
         """Extract nouns and adjectives using POS tagging"""
-        tokens = word_tokenize(text)
-        pos_tagged = pos_tag(tokens)
+        tokens = self.tokenizer.tokenize(text)
+        # Use default English tagger
+        pos_tagged = pos_tag(tokens, lang='eng')
         return [
             word.lower() for word, tag in pos_tagged
             if tag in self.pos_tags and word.isalnum() and word.lower() not in self.stop_words
