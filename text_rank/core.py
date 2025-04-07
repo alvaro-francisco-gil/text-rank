@@ -5,6 +5,25 @@ from nltk.tag import pos_tag
 from nltk.corpus import stopwords
 from collections import defaultdict
 
+# Ensure required NLTK data is downloaded
+def ensure_nltk_data():
+    """Ensure NLTK data is downloaded"""
+    required_data = {
+        'stopwords': 'corpora/stopwords',
+        'averaged_perceptron_tagger_eng': 'taggers/averaged_perceptron_tagger_eng',
+        'punkt': 'tokenizers/punkt'
+    }
+    
+    for resource, path in required_data.items():
+        try:
+            nltk.data.find(path)
+        except LookupError:
+            print(f"Downloading {resource}...")
+            nltk.download(resource, quiet=True)
+
+# Download required data
+ensure_nltk_data()
+
 class TextRankKeywordExtractor:
     def __init__(self, window_size=5, pos_tags=('NN', 'NNS', 'JJ', 'JJR', 'JJS')):
         self.window_size = window_size
