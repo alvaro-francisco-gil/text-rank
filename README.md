@@ -5,7 +5,7 @@ A Python library for extracting keywords from text using the TextRank algorithm.
 ## Installation
 
 ```bash
-pip install text-rank
+pip install git+https://github.com/alvaro-francisco-gil/text-rank.git
 ```
 
 ## Quick Start
