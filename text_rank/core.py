@@ -43,11 +43,25 @@ class TextRankKeywordExtractor:
             
         return graph
 
-    def extract_keywords(self, text, top_n=10):
-        """Extract keywords using weighted PageRank"""
+    def extract_keywords(self, text, top_n=None):
+        """
+        Extract keywords using weighted PageRank
+        
+        Args:
+            text (str): The input text to analyze
+            top_n (int, optional): Number of top keywords to return. If None, returns all keywords.
+            
+        Returns:
+            List of tuples containing (word, score) pairs, sorted by score in descending order
+        """
         graph = self.build_cooccurrence_graph(text)
         scores = nx.pagerank(graph, weight='weight')
-        return sorted(scores.items(), key=lambda x: x[1], reverse=True)[:top_n]
+        sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        
+        if top_n is None:
+            return sorted_scores
+        else:
+            return sorted_scores[:top_n]
 
     def export_pajek(self, graph, filename):
         """Export graph to Pajek format"""

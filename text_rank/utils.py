@@ -1,7 +1,7 @@
 """Utility functions for text file handling."""
 
 import os
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Dict, Optional
 from .core import TextRankKeywordExtractor
 
 def read_text_file(file_path: str, encoding: str = 'utf-8') -> str:
@@ -20,7 +20,7 @@ def read_text_file(file_path: str, encoding: str = 'utf-8') -> str:
 
 def analyze_text_file(
     file_path: str,
-    top_n: int = 10,
+    top_n: Optional[int] = None,
     window_size: int = 5,
     encoding: str = 'utf-8'
 ) -> List[Tuple[str, float]]:
@@ -29,12 +29,12 @@ def analyze_text_file(
     
     Args:
         file_path: Path to the text file
-        top_n: Number of top keywords to return
+        top_n: Number of top keywords to return. If None, returns all keywords.
         window_size: Size of the sliding window for co-occurrence
         encoding: File encoding (default: 'utf-8')
         
     Returns:
-        List of tuples containing (word, score) pairs
+        List of tuples containing (word, score) pairs, sorted by score in descending order
     """
     text = read_text_file(file_path, encoding)
     extractor = TextRankKeywordExtractor(window_size=window_size)
@@ -42,16 +42,16 @@ def analyze_text_file(
 
 def analyze_multiple_files(
     file_paths: List[str],
-    top_n: int = 10,
+    top_n: Optional[int] = None,
     window_size: int = 5,
     encoding: str = 'utf-8'
-) -> dict:
+) -> Dict[str, List[Tuple[str, float]]]:
     """
     Analyze multiple text files and extract keywords from each.
     
     Args:
         file_paths: List of paths to text files
-        top_n: Number of top keywords to return per file
+        top_n: Number of top keywords to return per file. If None, returns all keywords.
         window_size: Size of the sliding window for co-occurrence
         encoding: File encoding (default: 'utf-8')
         

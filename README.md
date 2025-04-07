@@ -24,10 +24,14 @@ and extract the natural language rules such that unstructured language data is c
 can understand.
 """
 
-# Extract keywords
+# Extract keywords (top 10 by default)
 keywords = extractor.extract_keywords(text, top_n=10)
 for word, score in keywords:
     print(f"{word}: {score:.4f}")
+
+# Extract all keywords
+all_keywords = extractor.extract_keywords(text)  # top_n=None returns all keywords
+print(f"\nTotal keywords found: {len(all_keywords)}")
 ```
 
 Example output:
@@ -42,6 +46,8 @@ linguistics: 0.0555
 intelligence: 0.0555
 interactions: 0.0551
 rules: 0.0548
+
+Total keywords found: 42
 ```
 
 ## Features
@@ -54,6 +60,21 @@ rules: 0.0548
 - Utility functions for file handling and batch processing
 
 ## Usage
+
+### Basic Usage
+
+```python
+from text_rank import TextRankKeywordExtractor
+
+# Initialize the extractor
+extractor = TextRankKeywordExtractor()
+
+# Extract keywords from text (all keywords)
+keywords = extractor.extract_keywords(text)  # Returns all keywords
+
+# Extract only top N keywords
+top_keywords = extractor.extract_keywords(text, top_n=10)  # Returns top 10 keywords
+```
 
 ### Customizing Parameters
 
@@ -75,18 +96,15 @@ The library provides utility functions for working with text files:
 ```python
 from text_rank.utils import analyze_text_file, analyze_multiple_files
 
-# Analyze a single file
-keywords = analyze_text_file('your_text_file.txt', top_n=10)
+# Analyze a single file (all keywords)
+keywords = analyze_text_file('your_text_file.txt')
+
+# Analyze a single file (top 10 keywords)
+top_keywords = analyze_text_file('your_text_file.txt', top_n=10)
 
 # Analyze multiple files
 file_paths = ['file1.txt', 'file2.txt', 'file3.txt']
-results = analyze_multiple_files(file_paths, top_n=10)
-
-# Print results for each file
-for file_path, keywords in results.items():
-    print(f"\nKeywords for {file_path}:")
-    for word, score in keywords:
-        print(f"{word}: {score:.4f}")
+results = analyze_multiple_files(file_paths)  # Returns all keywords for each file
 ```
 
 ### Exporting the Co-occurrence Graph
@@ -112,19 +130,19 @@ extractor.export_pajek(graph, 'output_graph.net')
 ### extract_keywords
 
 - `text` (str): The input text to analyze
-- `top_n` (int, default=10): Number of top keywords to return
+- `top_n` (int, optional): Number of top keywords to return. If None, returns all keywords.
 
 ### Utility Functions
 
 #### analyze_text_file
 - `file_path` (str): Path to the text file
-- `top_n` (int, default=10): Number of top keywords to return
+- `top_n` (int, optional): Number of top keywords to return. If None, returns all keywords.
 - `window_size` (int, default=5): Size of the sliding window
 - `encoding` (str, default='utf-8'): File encoding
 
 #### analyze_multiple_files
 - `file_paths` (List[str]): List of paths to text files
-- `top_n` (int, default=10): Number of top keywords per file
+- `top_n` (int, optional): Number of top keywords per file. If None, returns all keywords.
 - `window_size` (int, default=5): Size of the sliding window
 - `encoding` (str, default='utf-8'): File encoding
 
