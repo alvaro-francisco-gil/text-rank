@@ -6,7 +6,9 @@ setup(
     packages=find_packages(),
     install_requires=[
         "nltk>=3.7",
-        "networkx>=3.0"
+        "networkx>=3.0",
+        "numpy",
+        "scipy"
     ],
     package_dir={'text_rank': 'text_rank'},
 )
