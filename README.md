@@ -13,25 +13,15 @@ pip install text-rank
 ```python
 from text_rank import TextRankKeywordExtractor
 
-# Create an extractor with default settings
 extractor = TextRankKeywordExtractor()
 
-# Your text
 text = """
-Natural language processing (NLP) is a subfield of linguistics, computer science, and artificial intelligence 
-concerned with the interactions between computers and human language. It is used to apply algorithms to identify 
-and extract the natural language rules such that unstructured language data is converted into a form that computers 
-can understand.
+Natural language processing (NLP) is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language. It is used to apply algorithms to identify and extract the natural language rules such that unstructured language data is converted into a form that computers can understand.
 """
 
-# Extract keywords (top 10 by default)
-keywords = extractor.extract_keywords(text, top_n=10)
+keywords = extractor.extract_keywords(text)
 for word, score in keywords:
     print(f"{word}: {score:.4f}")
-
-# Extract all keywords
-all_keywords = extractor.extract_keywords(text)  # top_n=None returns all keywords
-print(f"\nTotal keywords found: {len(all_keywords)}")
 ```
 
 Example output:
@@ -46,8 +36,13 @@ linguistics: 0.0555
 intelligence: 0.0555
 interactions: 0.0551
 rules: 0.0548
-
-Total keywords found: 42
+unstructured: 0.0546
+human: 0.0545
+algorithms: 0.0543
+subfield: 0.0495
+processing: 0.0434
+data: 0.0430
+form: 0.0374
 ```
 
 ## Features
@@ -61,19 +56,8 @@ Total keywords found: 42
 
 ## Usage
 
-### Basic Usage
-
 ```python
 from text_rank import TextRankKeywordExtractor
-
-# Initialize the extractor
-extractor = TextRankKeywordExtractor()
-
-# Extract keywords from text (all keywords)
-keywords = extractor.extract_keywords(text)  # Returns all keywords
-
-# Extract only top N keywords
-top_keywords = extractor.extract_keywords(text, top_n=10)  # Returns top 10 keywords
 ```
 
 ### Customizing Parameters
@@ -82,7 +66,7 @@ top_keywords = extractor.extract_keywords(text, top_n=10)  # Returns top 10 keyw
 # Initialize with custom parameters
 extractor = TextRankKeywordExtractor(
     window_size=5,  # Size of the sliding window for co-occurrence
-    pos_tags=('NN', 'NNS', 'JJ', 'JJR', 'JJS')  # Parts of speech to consider
+    pos_tags=('NN', 'NNS', 'JJ', 'JJR', 'JJS')  # Parts of speech to consider based in TreeBank
 )
 
 # Extract keywords
