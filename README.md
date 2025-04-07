@@ -16,7 +16,10 @@ from text_rank import TextRankKeywordExtractor
 extractor = TextRankKeywordExtractor()
 
 text = """
-Natural language processing (NLP) is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language. It is used to apply algorithms to identify and extract the natural language rules such that unstructured language data is converted into a form that computers can understand.
+Natural language processing (NLP) is a subfield of linguistics, computer science, and artificial intelligence 
+concerned with the interactions between computers and human language. It is used to apply algorithms to identify 
+and extract the natural language rules such that unstructured language data is converted into a form that computers 
+can understand.
 """
 
 keywords = extractor.extract_keywords(text)

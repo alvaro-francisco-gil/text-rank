@@ -5,7 +5,7 @@ def ensure_nltk_data():
     """Ensure NLTK data is downloaded"""
     required_data = {
         'stopwords': 'corpora/stopwords',
-        'averaged_perceptron_tagger': 'taggers/averaged_perceptron_tagger_eng',
+        'averaged_perceptron_tagger_eng': 'taggers/averaged_perceptron_tagger_eng',
         'universal_tagset': 'taggers/universal_tagset'
     }
     
