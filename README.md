@@ -72,38 +72,6 @@ A simple Windows application is available in the `app` directory that provides a
 
 For more information, see the [App README](app/README.md).
 
-## Exporting Multiple Graphs to Pajek Format
-
-You can also process multiple text files at once and export their co-occurrence graphs to Pajek format:
-
-```python
-from text_rank.utils import export_multiple_graphs_to_pajek
-
-# List of text files to process
-text_files = ['file1.txt', 'file2.txt', 'file3.txt']
-
-# Export graphs to a directory (multiple files)
-result = export_multiple_graphs_to_pajek(
-    file_paths=text_files,
-    output_dir='pajek_graphs',
-    window_size=5
-)
-
-# Or export all graphs to a single file
-result = export_multiple_graphs_to_pajek(
-    file_paths=text_files,
-    output_dir='pajek_graphs',
-    window_size=5,
-    single_file=True  # This will create a single file with all graphs
-)
-
-# The result is a dictionary mapping input files to their Pajek graph files
-for input_file, pajek_file in result.items():
-    print(f"{input_file} -> {pajek_file}")
-```
-
-This is useful for batch processing multiple documents and analyzing their co-occurrence networks.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
