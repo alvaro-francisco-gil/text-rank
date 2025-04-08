@@ -51,6 +51,8 @@ Check out our interactive Jupyter notebook example to learn how to use the libra
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/alvaro-francisco-gil/text-rank/blob/main/examples/using_text_rank.ipynb)
 
+For detailed information about the library's features and usage, please refer to the [User Manual](user_manual.pdf).
+
 ## Features
 
 - Extract keywords from text using the TextRank algorithm
