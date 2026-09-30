@@ -2,6 +2,8 @@
 
 A Python library for extracting keywords from text using the TextRank algorithm. This implementation is based on the paper ["TextRank: Bringing Order into Texts"](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf) by Rada Mihalcea and Paul Tarau.
 
+Built during my [MSc in Language Technologies at UNED](https://github.com/alvaro-francisco-gil/uned-language-technologies).
+
 ## Installation
 
 ```bash
